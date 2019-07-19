@@ -44,17 +44,14 @@ axes[2].imshow(masked_img)
 
 
 def plot_sample_data(masked, mask, ori, middle_title='Raw Mask'):
-    #_, axes = plt.subplots(1, 3, figsize=(20, 5))
-    #axes[0].imshow(masked[:, :, :])
-    #axes[0].set_title('Masked Input')
-    #axes[1].imshow(mask[:, :, :])
-    #axes[1].set_title(middle_title)
-    #axes[2].imshow(ori[:, :, :])
-    #axes[2].set_title('Target Output')
-    #plt.show()
-    return
-
-def plot_predicted_data(masked, mask, ori, middle_title='Raw Mask'):
+    #save the plot on a different figure for every epoch
+    i=0
+    while i in range(10):
+        exists = os.path.isfile('predicted_sample_image_' + str(i + 1) + '.jpg')
+        if exists:
+            i+=1
+        else:
+            break
     _, axes = plt.subplots(1, 3, figsize=(20, 5))
     axes[0].imshow(masked[:, :, :])
     axes[0].set_title('Masked Input')
@@ -62,7 +59,9 @@ def plot_predicted_data(masked, mask, ori, middle_title='Raw Mask'):
     axes[1].set_title(middle_title)
     axes[2].imshow(ori[:, :, :])
     axes[2].set_title('Target Output')
-    #plt.savefig('predicted_sample_image_1.jpg')
+    plt.savefig('predictions/predicted_sample_image_'+str(i+1)+'.jpg')
+
+
 
 class DataGenerator(ImageDataGenerator):
     def flow(self, x, *args, **kwargs):
@@ -95,6 +94,7 @@ datagen = DataGenerator(
 # make log folder and its recipients
 makedirs('logs', exist_ok=True)
 makedirs('logs/sample_image_1', exist_ok=True)
+makedirs('./predictions', exist_ok=True)
 
 # Create generator from numpy array
 batch = np.stack([img for _ in range(BATCH_SIZE)], axis=0)
@@ -103,7 +103,7 @@ generator = datagen.flow(x=batch, batch_size=BATCH_SIZE)
 
 [m1, m2], o1 = next(generator)
 
-plot_sample_data(m1[0], m2[0] * 255, o1[0])
+#plot_sample_data(m1[0], m2[0] * 255, o1[0])
 
 # Instantiate model
 model = PConvUnet(vgg_weights='./h5/pytorch_to_keras_vgg16.h5')
@@ -143,5 +143,14 @@ model.fit_generator(
 
 
 
+
 #model.predict print/plot results
+_, new_axes = plt.subplots(1, 3, figsize=(20, 5))
+new_axes[0].imshow(masked_img[:, :, :])
+new_axes[0].set_title('Masked Input')
+new_axes[1].imshow(model.predict([np.expand_dims(masked_img, 0), np.expand_dims(mask, 0) ])[0])
+new_axes[1].set_title('Prediction')
+new_axes[2].imshow(img[:, :, :])
+new_axes[2].set_title('Target Output')
+plt.savefig('predictions/predicted_sample_image_final.jpg')
 
