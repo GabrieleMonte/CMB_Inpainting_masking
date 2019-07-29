@@ -45,7 +45,7 @@ axes[2].imshow(masked_img)
 
 def plot_sample_data(masked, mask, ori, middle_title='Raw Mask'):
     #save the plot on a different figure for every epoch
-    i=0
+    i=1
     while i in range(10):
         exists = os.path.isfile('predicted_sample_image_' + str(i + 1) + '.jpg')
         if exists:
@@ -111,7 +111,7 @@ model = PConvUnet(vgg_weights='./h5/pytorch_to_keras_vgg16.h5')
 model.fit_generator(
     generator,
     verbose=0,
-    steps_per_epoch=2000,
+    steps_per_epoch=1,
     epochs=10,
     callbacks=[
         TensorBoard(
