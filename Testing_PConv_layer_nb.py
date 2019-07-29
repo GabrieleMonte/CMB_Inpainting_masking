@@ -10,8 +10,8 @@ from keras.layers import Input, Dense, ZeroPadding2D
 from keras.models import Model
 
 # Import modules from libs/ directory
-from PConv_layer import PConv2D
-from Mask_generator import MaskGenerator
+from utils.PConv_layer import PConv2D
+from utils.Mask_generator import MaskGenerator
 from os import makedirs
 
 # Load image

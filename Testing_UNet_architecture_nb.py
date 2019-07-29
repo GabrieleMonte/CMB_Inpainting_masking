@@ -11,8 +11,8 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, LambdaCallback
 import matplotlib
 import matplotlib.pyplot as plt
 
-from Mask_generator import MaskGenerator
-from PConv_UNet_model import PConvUnet
+from utils.Mask_generator import MaskGenerator
+from utils.PConv_UNet_model import PConvUnet
 import cv2
 
 # Settings

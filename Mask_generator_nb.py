@@ -1,4 +1,4 @@
-from CMB_Inpainting_PConv_project.Mask_generator import MaskGenerator
+from utils.Mask_generator import MaskGenerator
 import matplotlib.pyplot as plt
 from os import makedirs
 
